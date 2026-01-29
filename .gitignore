@@ -1,6 +1,12 @@
 .env
 .claude/
 
+__pycache__/
+*.pyc
+*.pyo
+
+for_reference/
+
 /jobs/*
 !/jobs/.gitkeep
 

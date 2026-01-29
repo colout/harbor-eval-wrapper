@@ -6,7 +6,7 @@ FROM python:3.12-slim AS builder
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:${PATH}"
 RUN pip install --no-cache-dir --upgrade pip \
- && pip install --no-cache-dir harbor
+ && pip install --no-cache-dir harbor mlflow python-dotenv
 
 # ---- stage 3: runtime: python + harbor venv + docker cli ----
 FROM python:3.12-slim

@@ -5,7 +5,13 @@ author_name = "Eval Author"
 author_email = "author@example.com"
 difficulty = "easy"
 category = "debugging"
-tags = ["python", "bugfix", "trivial"]
+tags = ["python", "bugfix", "multi-turn"]
+
+[[metadata.turns]]
+prompt = "Fix the multiply bug"
+
+[[metadata.turns]]
+prompt = "Add a power function"
 
 [verifier]
 timeout_sec = 60.0

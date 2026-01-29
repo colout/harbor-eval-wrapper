@@ -1,8 +1,6 @@
 #!/bin/bash
 
-pip install pytest pytest-json-ctrf -q
-
-# Compare current workspace to initial state (stored in container with generic name to avoid LLM discovery)
+# Compare current workspace to initial state
 CURRENT=$(find /workspace -type f -exec sha256sum {} \; | sort | sha256sum | cut -d' ' -f1)
 INITIAL=$(cat /var/lib/sha-hash.sha256)
 
@@ -12,13 +10,15 @@ else
     ATTEMPTED=1
 fi
 
-pytest --ctrf /logs/verifier/ctrf.json /tests/test_state.py -v
+REWARD=1
 
-if [ $? -eq 0 ]; then
-    REWARD=1
-else
-    REWARD=0
-fi
+for f in /usr/local/lib/.phase*.pyc; do
+    [ -f "$f" ] || continue
+    if ! python3 "$f"; then
+        REWARD=0
+        break
+    fi
+done
 
 echo $REWARD > /logs/verifier/reward.txt
 echo "{\"attempted\": $ATTEMPTED}" > /logs/verifier/metrics.json
